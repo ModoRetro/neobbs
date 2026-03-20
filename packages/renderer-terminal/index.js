@@ -2,21 +2,27 @@
 
 const DIVIDER = '─'.repeat(40);
 
+function renderClear() {
+  process.stdout.write('\x1Bc');
+}
+
 function renderHeader(title) {
   process.stdout.write(DIVIDER + '\n');
   process.stdout.write(' ' + title + '\n');
   process.stdout.write(DIVIDER + '\n');
+  process.stdout.write('\n');
 }
 
 function renderFooter() {
-  process.stdout.write(DIVIDER + '\n');
-  process.stdout.write('> ');
+  process.stdout.write('\n' + DIVIDER + '\n');
+  process.stdout.write('>> ');
 }
 
 function createRenderer() {
   const views = new Map();
 
   return {
+    renderClear,
     renderHeader,
     renderFooter,
 
@@ -28,6 +34,9 @@ function createRenderer() {
       switch (message.type) {
         case 'text':
           process.stdout.write(message.content + '\n');
+          break;
+        case 'clear':
+          renderClear();
           break;
         case 'header':
           renderHeader(message.title);

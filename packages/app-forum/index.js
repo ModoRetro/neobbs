@@ -1,6 +1,7 @@
 'use strict';
 
 const createTopicRepo = require('./topicRepo');
+const { createFlow } = require('@neobbs/core');
 
 module.exports = function (engine) {
   engine.registerPermission('forum:topic:read');
@@ -34,7 +35,21 @@ module.exports = function (engine) {
 
   engine.registerRoute('forum:new', (session) => {
     const forum = engine.getService('forum');
-    forum.createTopic(session, 'Untitled topic');
-    session.send('Topic created.');
+    session.send({ type: 'header', title: 'New Topic' });
+
+    createFlow(session, [
+      {
+        prompt: 'Enter topic title:',
+        validate: (input) => input ? null : 'Title cannot be empty.',
+        next: (session, input) => {
+          try {
+            forum.createTopic(session, input);
+            engine.navigate(session, 'forum');
+          } catch (err) {
+            session.send('Error: ' + err.message);
+          }
+        },
+      },
+    ]);
   });
 };

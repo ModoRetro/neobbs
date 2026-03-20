@@ -15,7 +15,6 @@ engine.on('error', ({ route, error }) =>
 
 const renderer = createRenderer();
 
-// Fake user store — no persistence yet
 const USERS = {
   alice: { username: 'alice', permissions: ['blog:post:read', 'blog:post:create', 'forum:topic:read', 'forum:topic:create', 'system:admin:access'] },
   bob:   { username: 'bob',   permissions: ['blog:post:read', 'forum:topic:read'] },
@@ -70,7 +69,14 @@ engine.registerRoute('blog', (session) => {
   } else {
     posts.forEach((p) => session.send('- ' + p.title));
   }
+  session.send('');
+  session.send('[n] New post');
   session.send({ type: 'footer' });
+
+  session.clearInput();
+  session.onInput((data) => {
+    if (data.trim() === 'n') engine.navigate(session, 'blog:new');
+  });
 });
 
 engine.registerRoute('forum', (session) => {
@@ -82,19 +88,36 @@ engine.registerRoute('forum', (session) => {
   } else {
     topics.forEach((t) => session.send('- ' + t.title));
   }
+  session.send('');
+  session.send('[n] New topic');
   session.send({ type: 'footer' });
+
+  session.clearInput();
+  session.onInput((data) => {
+    if (data.trim() === 'n') engine.navigate(session, 'forum:new');
+  });
 });
 
-const out = (msg) => renderer.render(msg);
+// --- start ---
 
-// alice — has system:admin:access → sees Admin option
-console.log('=== alice (admin) ===');
-const s1 = engine.createSession({ user: GUEST, _out: out });
-engine.navigate(s1, 'login');
-s1._input('alice');
+const session = engine.createSession({
+  user: GUEST,
+  _out: (msg) => renderer.render(msg),
+});
 
-// bob — no admin permission → no Admin option
-console.log('\n=== bob (no admin) ===');
-const s2 = engine.createSession({ user: GUEST, _out: out });
-engine.navigate(s2, 'login');
-s2._input('bob');
+process.stdin.setEncoding('utf8');
+process.stdin.resume();
+process.stdin.on('data', (chunk) => {
+  chunk.split('\n').forEach(line => {
+    const input = line.trim();
+    if (!input) return;
+    session._input(input);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('\nBye!');
+  process.exit(0);
+});
+
+engine.navigate(session, 'login');

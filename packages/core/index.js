@@ -47,6 +47,7 @@ class Engine {
       const prev = session.history.pop();
       if (prev) this._dispatch(session, prev, false);
     };
+    session.send({ type: 'clear' });
     this.emit('route:enter', { session, route: name });
     try {
       handler(session);
@@ -134,5 +135,39 @@ function createMenu(engine, session, { title, options }) {
   });
 }
 
+function createFlow(session, steps) {
+  function renderPrompt(step) {
+    if (typeof step.prompt === 'function') {
+      step.prompt(session);
+    } else {
+      session.send(step.prompt);
+    }
+    session.send({ type: 'footer' });
+  }
+
+  function runStep(i) {
+    if (i >= steps.length) return;
+    const step = steps[i];
+    session.clearInput();
+    renderPrompt(step);
+
+    session.onInput((data) => {
+      const input = data.trim();
+      if (step.validate) {
+        const error = step.validate(input);
+        if (error) {
+          session.send(error);
+          renderPrompt(step);
+          return;
+        }
+      }
+      step.next(session, input);
+      runStep(i + 1);
+    });
+  }
+  runStep(0);
+}
+
 module.exports = Engine;
 module.exports.createMenu = createMenu;
+module.exports.createFlow = createFlow;
