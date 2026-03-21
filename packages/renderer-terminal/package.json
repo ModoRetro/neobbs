@@ -1,9 +1,15 @@
 {
   "name": "@neobbs/renderer-terminal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Terminal renderer for neobbs applications.",
   "main": "index.js",
-  "keywords": ["terminal", "renderer", "ui", "console", "bbs"],
+  "keywords": [
+    "terminal",
+    "renderer",
+    "ui",
+    "console",
+    "bbs"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",

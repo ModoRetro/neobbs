@@ -1,9 +1,17 @@
 {
   "name": "@neobbs/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Modular engine for building interactive terminal applications.",
   "main": "index.js",
-  "keywords": ["bbs", "terminal", "framework", "engine", "interactive", "ssh", "cli"],
+  "keywords": [
+    "bbs",
+    "terminal",
+    "framework",
+    "engine",
+    "interactive",
+    "ssh",
+    "cli"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
