@@ -3,6 +3,9 @@
   "version": "0.1.1",
   "description": "Modular engine for building interactive terminal applications.",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "bbs",
     "terminal",

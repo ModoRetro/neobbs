@@ -3,6 +3,9 @@
   "version": "0.1.1",
   "description": "Terminal renderer for neobbs applications.",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "terminal",
     "renderer",
