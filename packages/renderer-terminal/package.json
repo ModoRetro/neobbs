@@ -1,5 +1,16 @@
 {
   "name": "@neobbs/renderer-terminal",
   "version": "0.1.0",
-  "main": "index.js"
+  "description": "Terminal renderer for neobbs applications.",
+  "main": "index.js",
+  "keywords": ["terminal", "renderer", "ui", "console", "bbs"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ModoRetro/neobbs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ModoRetro/neobbs/issues"
+  },
+  "homepage": "https://github.com/ModoRetro/neobbs"
 }

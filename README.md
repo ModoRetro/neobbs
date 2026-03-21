@@ -28,6 +28,7 @@ neobbs is not a UI library and not a CLI tool. It is a **runtime and plugin plat
 - [Example: Wiring Everything Together](#example-wiring-everything-together)
 - [Current Features](#current-features)
 - [Roadmap](#roadmap)
+- [Philosophy](#philosophy)
 
 ---
 
@@ -63,13 +64,13 @@ neobbs/
   package.json                  ← workspace root
 
   packages/
-    core/                       ← @neobbs/core
-    app-blog/                   ← @neobbs/app-blog
-    app-forum/                  ← @neobbs/app-forum
-    renderer-terminal/          ← @neobbs/renderer-terminal
+    core/                       ← @neobbs/core (published)
+    renderer-terminal/          ← @neobbs/renderer-terminal (published)
 
   examples/
-    basic/                      ← runnable demo
+    basic/                      ← full wiring demo
+    blog/                       ← blog plugin example
+    forum/                      ← forum plugin example
 ```
 
 Install all packages from the root:
@@ -84,15 +85,28 @@ Run the example:
 node examples/basic/index.js
 ```
 
-### Packages
+## Packages
 
 | Package | Description |
 |---|---|
-| `@neobbs/core` | Engine, session model, plugin system, routing, permissions, events, menu helper |
-| `@neobbs/app-blog` | Blog plugin — posts service, repository, routes |
-| `@neobbs/app-forum` | Forum plugin — topics service, repository, routes |
-| `@neobbs/renderer-terminal` | Terminal renderer — handles messages, views, layout |
-| `examples/basic` | Full wiring demo with login, menus, and both plugins |
+| [`@neobbs/core`](./packages/core) | Engine, session model, plugin system, routing, permissions, events, menu and flow helpers |
+| [`@neobbs/renderer-terminal`](./packages/renderer-terminal) | Terminal renderer — handles messages, views, layout |
+
+## Examples
+
+These demonstrate how to build applications on top of the engine. They are not published packages.
+
+| Example | Description |
+|---|---|
+| [`examples/basic`](./examples/basic) | Full wiring demo — login, menus, permissions, navigation |
+| [`examples/blog`](./examples/blog) | Blog plugin — posts service, repository, creation flow |
+| [`examples/forum`](./examples/forum) | Forum plugin — topics service, repository, creation flow |
+
+Run any example from the repo root:
+
+```bash
+node examples/basic/index.js
+```
 
 ---
 
@@ -541,3 +555,18 @@ session._input('1');
 - **Multi-session runtime** — single process handling concurrent users
 - **Theme system** — cyberpunk, retro, and custom color schemes
 - **Plugin ecosystem** — chat, games, user profiles, private messages
+
+## Philosophy
+
+neobbs exists to make it easier to build Bulletin Board Systems (BBS) using modern tools.
+
+BBS systems were once places of exploration, small communities where people discovered software, shared ideas, and learned how to interact online. The early internet felt discoverable, personal, and alive in ways that are harder to find today.
+
+This project is not only about software architecture. It is about reviving a style of online interaction that encourages curiosity, identity, and responsibility within smaller communities.
+
+Many modern platforms optimize for scale. BBS-style systems optimize for presence.
+
+They are slower, more intentional, and more local. They encourage exploration instead of passive consumption.
+
+neobbs aims to make building these systems easier, so that new communities, especially younger ones, can rediscover this style of online interaction, even if they never experienced it the first time.
+

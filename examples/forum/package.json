@@ -1,6 +1,7 @@
 {
-  "name": "@neobbs/app-forum",
+  "name": "@neobbs/example-forum",
   "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "dependencies": {
     "@neobbs/core": "*"

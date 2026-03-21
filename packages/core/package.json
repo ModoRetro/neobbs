@@ -1,5 +1,16 @@
 {
   "name": "@neobbs/core",
   "version": "0.1.0",
-  "main": "index.js"
+  "description": "Modular engine for building interactive terminal applications.",
+  "main": "index.js",
+  "keywords": ["bbs", "terminal", "framework", "engine", "interactive", "ssh", "cli"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ModoRetro/neobbs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ModoRetro/neobbs/issues"
+  },
+  "homepage": "https://github.com/ModoRetro/neobbs"
 }

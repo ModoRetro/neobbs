@@ -2,8 +2,8 @@
 
 const Engine = require('@neobbs/core');
 const { createMenu } = require('@neobbs/core');
-const blogPlugin = require('@neobbs/app-blog');
-const forumPlugin = require('@neobbs/app-forum');
+const blogPlugin = require('../blog');
+const forumPlugin = require('../forum');
 const createRenderer = require('@neobbs/renderer-terminal');
 
 const engine = new Engine();

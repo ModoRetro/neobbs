@@ -1,6 +1,7 @@
 {
-  "name": "@neobbs/app-blog",
+  "name": "@neobbs/example-blog",
   "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "dependencies": {
     "@neobbs/core": "*"
