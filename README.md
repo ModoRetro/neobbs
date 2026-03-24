@@ -109,6 +109,7 @@ These demonstrate how to build applications on top of the engine. They are not p
 | Example | Description |
 |---|---|
 | [`examples/hello-world`](./examples/hello-world) | Smallest possible neobbs app — recommended starting point |
+| [`examples/minimal-plugin`](./examples/minimal-plugin) | Minimal plugin demonstrating permissions, services, and routes |
 | [`examples/basic`](./examples/basic) | Full wiring demo — login, menus, permissions, navigation |
 | [`examples/blog`](./examples/blog) | Blog plugin — posts service, repository, creation flow |
 | [`examples/forum`](./examples/forum) | Forum plugin — topics service, repository, creation flow |

@@ -1,0 +1,10 @@
+{
+  "name": "@neobbs/example-minimal-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@neobbs/core": "*",
+    "@neobbs/renderer-terminal": "*"
+  }
+}
