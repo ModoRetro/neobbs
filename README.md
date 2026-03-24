@@ -4,6 +4,16 @@ A modular engine for building multi-user terminal applications — BBS-style sys
 
 neobbs is not a UI library and not a CLI tool. It is a **runtime and plugin platform**: a foundation that multiple apps (blog, forum, chat, games) can be built on top of, sharing a common engine, session model, permission system, and renderer.
 
+## Quick Start
+
+Run the Hello World example:
+
+```bash
+node examples/hello-world/index.js
+```
+
+This demonstrates the smallest working neobbs application.
+
 ---
 
 ## Table of Contents
@@ -98,6 +108,7 @@ These demonstrate how to build applications on top of the engine. They are not p
 
 | Example | Description |
 |---|---|
+| [`examples/hello-world`](./examples/hello-world) | Smallest possible neobbs app — recommended starting point |
 | [`examples/basic`](./examples/basic) | Full wiring demo — login, menus, permissions, navigation |
 | [`examples/blog`](./examples/blog) | Blog plugin — posts service, repository, creation flow |
 | [`examples/forum`](./examples/forum) | Forum plugin — topics service, repository, creation flow |
