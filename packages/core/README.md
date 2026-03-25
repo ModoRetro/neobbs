@@ -146,29 +146,136 @@ Options with a `permission` field are only shown to users who have that permissi
 
 ### createFlow
 
-Multi-step input flow helper.
+Multi-step input flow helper. Guides a user through a sequence of prompts, validating each answer before advancing.
+
+```js
+const { createFlow } = require('@neobbs/core');
+
+createFlow(session, steps);
+```
+
+### Step Structure
+
+Each step is an object with the following fields:
+
+```js
+{
+  prompt,    // string or function — shown to the user
+  validate,  // optional function — returns null or an error string
+  next,      // function — called when input is valid
+}
+```
+
+**`prompt`**
+
+A string displayed before input, or a function that renders dynamic content:
+
+```js
+prompt: 'Enter your name:'
+
+// or
+
+prompt: (session) => {
+  session.send('Title: ' + session.state.title);
+  session.send('Confirm? [y/n]');
+}
+```
+
+**`validate(input)`**
+
+Optional. Receives the trimmed user input. Must return:
+- `null` — input is valid, flow advances
+- `string` — error message, step is retried
+
+**`next(session, input)`**
+
+Called once validation passes. Use it to store data or trigger navigation. The flow automatically advances to the next step after `next` returns.
+
+### Multi-Step Form Example
 
 ```js
 const { createFlow } = require('@neobbs/core');
 
 createFlow(session, [
   {
-    prompt: 'Enter title:',
-    validate: (input) => input ? null : 'Title cannot be empty.',
-    next: (session, input) => { session.state.title = input; },
+    prompt: 'Enter your name:',
+    validate: (input) => input ? null : 'Name cannot be empty.',
+    next: (session, input) => {
+      session.state.name = input;
+    },
   },
   {
-    prompt: 'Enter content:',
-    validate: (input) => input ? null : 'Content cannot be empty.',
+    prompt: 'Enter your age:',
+    validate: (input) =>
+      /^\d+$/.test(input) ? null : 'Age must be a number.',
     next: (session, input) => {
-      saveItem(session.state.title, input);
-      engine.navigate(session, 'list');
+      session.state.age = Number(input);
     },
   },
 ]);
 ```
 
-Each step renders its prompt, registers an input handler, validates, and advances automatically on success. On validation failure, the error is shown and the prompt is re-rendered.
+This example collects multiple pieces of data and stores them in `session.state`. Each step runs only after validation succeeds.
+
+### Confirmation Step Example
+
+```js
+createFlow(session, [
+  {
+    prompt: 'Enter title:',
+    validate: (input) => input ? null : 'Title required.',
+    next: (session, input) => {
+      session.state.title = input;
+    },
+  },
+  {
+    prompt: (session) => {
+      session.send('');
+      session.send('Title: ' + session.state.title);
+      session.send('');
+      session.send('Confirm? [y/n]');
+    },
+    validate: (input) => {
+      if (input === 'y' || input === 'n') return null;
+      return 'Please enter y or n.';
+    },
+    next: (session, input) => {
+      if (input === 'y') {
+        session.send('Saved!');
+      }
+      session.state = {};
+    },
+  },
+]);
+```
+
+This demonstrates dynamic prompts, confirmation flows, and branching behavior based on user input.
+
+### Validation Behavior
+
+When `validate()` returns a string, the flow:
+
+1. Displays the error message
+2. Re-renders the same step prompt
+3. Waits for new input
+4. Does not advance until valid input is provided
+
+Example — empty name input:
+
+```
+Name cannot be empty.
+Enter your name:
+>>
+```
+
+### Retry Logic
+
+`createFlow` automatically retries the current step when validation fails. Developers do not need to manually re-register input handlers or track which step is active.
+
+`createFlow` handles:
+- input registration and cleanup (`clearInput` is called per step)
+- step progression
+- prompt re-rendering on retry
 
 ## License
 
